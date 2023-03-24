@@ -25,11 +25,17 @@ import UIKit
  
 //İki parametreli ve FARKLI tipli bir generic örneği yapınız. (T,U)
 
-func combine<T, U>(first: T, second: U) -> (T, U) {
+/*func combine<T, U>(first: T, second: U) -> (T, U) {
     return (first , second)
 }
 
 let result = combine(first: 78, second: "Karabük/Safranbolu")
-print(result)
+print(result)*/
 
+
+func hello (_name : String = "World") -> String{
+ return "Hello \(_name)!"
+    
+}
+hello(_name: "Umut")
  
