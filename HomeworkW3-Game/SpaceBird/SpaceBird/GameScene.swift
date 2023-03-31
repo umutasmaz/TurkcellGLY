@@ -10,6 +10,12 @@ import GameplayKit
 
 
 class GameScene: SKScene , SKPhysicsContactDelegate{
+   
+    enum ColliderType : UInt32 {
+        case Bullet3 = 1
+        case EnemyUfo = 2
+        
+    }
     
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
@@ -28,12 +34,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     var playerNameLabel = SKLabelNode()
     
     
-    enum ColliderType : UInt32 {
-        case Bullet3 = 1
-        case EnemyUfo = 2
-        
-    }
-    
+   
     override func didMove(to view: SKView) {
 
          //PhysicBody
@@ -43,7 +44,6 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
          self.physicsWorld.contactDelegate = self
          
         
-        //Bullet
          bullet3 = childNode(withName: "bullet3") as! SKSpriteNode
         let bullet3texture = SKTexture(imageNamed: "bullet3")
         bullet3.physicsBody = SKPhysicsBody(circleOfRadius: bullet3texture.size().height / 6)
@@ -55,9 +55,8 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         bullet3.physicsBody?.contactTestBitMask = ColliderType.Bullet3.rawValue
         bullet3.physicsBody?.categoryBitMask = ColliderType.Bullet3.rawValue
         bullet3.physicsBody?.collisionBitMask = ColliderType.EnemyUfo.rawValue
+       
         
-        
-        //EnemyUfo
         let enemyUfoTexture = SKTexture(imageNamed: "enemyUfo")
         let ufoSize = CGSize(width: enemyUfoTexture.size().width / 5, height: enemyUfoTexture.size().height / 5)
         enemyUfo = childNode(withName: "enemyUfo") as! SKSpriteNode
@@ -70,7 +69,6 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         
         enemyUfo.physicsBody?.collisionBitMask = ColliderType.Bullet3.rawValue
         
-        //Label
         scoreLabel.fontName = "Helvatica"
         scoreLabel.fontSize = 60
         scoreLabel.text = "0"
@@ -85,33 +83,14 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         playerNameLabel.zPosition = 2
         self.addChild(playerNameLabel)
            
-        
     }
     
     
     func didBegin(_ contact: SKPhysicsContact) {
         if contact.bodyA.collisionBitMask == ColliderType.Bullet3.rawValue || contact.bodyB.collisionBitMask == ColliderType.Bullet3.rawValue {
-             
             score += 1
             scoreLabel.text = String(score)
         }
-    }
-    
- 
-    
-    
-    
-    
-    func touchDown(atPoint pos : CGPoint) {
-        
-    }
-    
-    func touchMoved(toPoint pos : CGPoint) {
-        
-    }
-    
-    func touchUp(atPoint pos : CGPoint) {
-        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -131,11 +110,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
                     }
                 }
             }
-            
         }
-        
-        
-        
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -155,14 +130,11 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
                     }
                 }
             }
-            
         }
         
-        
     }
-    
+  
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-     
         if gameStarted == false {
             if let touch = touches.first {
                 let touchLocation = touch.location(in: self)
@@ -185,22 +157,11 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
                     }
                 }
             }
-            
         }
-        
-        
-        
-        
     }
-    
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-    
-    }
-    
-    
+
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
-        
         
         if let bullet3PhysicsBody = bullet3.physicsBody {
             
@@ -217,13 +178,8 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
                 enemyUfo.position = originalUfoPosition!
                 bullet3.zRotation = 0
                 enemyUfo.zRotation = 0
-                
             }
-            
         }
-        
-      
-        
     }
 }
 
